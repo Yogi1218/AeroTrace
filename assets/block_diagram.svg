@@ -1,187 +1,91 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 1420" width="100%" height="100%" style="background-color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000" style="background-color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#000000" />
     </marker>
   </defs>
 
-  <!-- ================= STAGE 1: BREATH SAMPLING (Pink Box) ================= -->
-  <rect x="50" y="20" width="310" height="270" fill="#fff5fc" stroke="#f472b6" stroke-width="2.5" />
-  <text x="205" y="42" fill="#000000" font-size="12" font-weight="bold" text-anchor="middle">1. Breath Sampling &amp; Flow Validation</text>
+  <!-- 1. TOP BAR: Single Breath Input (#189ad3 Sky Blue) -->
+  <rect x="80" y="48" width="840" height="72" fill="#189ad3" />
+  <text x="500" y="93" fill="#ffffff" font-size="26" font-weight="bold" text-anchor="middle">
+    Single Exhaled Breath Input
+  </text>
 
-  <!-- Disposable Mouthpiece -->
-  <rect x="145" y="55" width="120" height="42" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
-  <text x="205" y="72" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Disposable</text>
-  <text x="205" y="87" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Mouthpiece</text>
+  <!-- Split line from Top Bar -->
+  <line x1="500" y1="120" x2="500" y2="175" stroke="#000000" stroke-width="2" />
+  <line x1="170" y1="175" x2="830" y2="175" stroke="#000000" stroke-width="2" />
+  <line x1="170" y1="175" x2="170" y2="265" stroke="#000000" stroke-width="2" marker-end="url(#arrow)" />
+  <line x1="830" y1="175" x2="830" y2="265" stroke="#000000" stroke-width="2" marker-end="url(#arrow)" />
 
-  <!-- Arrow down to Impaction Chamber -->
-  <line x1="205" y1="97" x2="205" y2="125" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
+  <!-- 2. LEFT BLUE BOX: 50ms Circular Buffer equivalent (#0052cc / #0066ff) -->
+  <rect x="35" y="267" width="270" height="68" fill="#0066ff" />
+  <text x="170" y="295" fill="#ffffff" font-size="18" font-weight="bold" text-anchor="middle">
+    AEROSOL SAMPLING TRAP
+  </text>
+  <text x="170" y="318" fill="#ffffff" font-size="14" text-anchor="middle">
+    (Captures non-volatile droplets)
+  </text>
 
-  <!-- Aerodynamic Impaction Chamber -->
-  <rect x="145" y="125" width="120" height="50" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
-  <text x="205" y="145" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Aerodynamic</text>
-  <text x="205" y="158" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Impaction</text>
-  <text x="205" y="170" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Chamber</text>
+  <!-- 3. RIGHT GREEN BOX: Speech-Only VAD Trigger equivalent (#008a00) -->
+  <rect x="695" y="267" width="270" height="68" fill="#008a00" />
+  <text x="830" y="295" fill="#ffffff" font-size="18" font-weight="bold" text-anchor="middle">
+    FLOW GATING TRIGGER
+  </text>
+  <text x="830" y="318" fill="#ffffff" font-size="14" text-anchor="middle">
+    (Deep-alveolar breath wakeup)
+  </text>
 
-  <!-- Split arrows from Chamber -->
-  <!-- Left branch: Exhaled Gas Phase to Flow Gating -->
-  <line x1="165" y1="175" x2="125" y2="225" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
-  <rect x="95" y="190" width="105" height="18" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1" />
-  <text x="147" y="203" fill="#000000" font-size="9" font-weight="bold" text-anchor="middle">Exhaled Gas Phase</text>
+  <!-- Lines from Left & Right down to Crimson Bar -->
+  <line x1="170" y1="335" x2="170" y2="450" stroke="#000000" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="175" y="375" fill="#000000" font-size="15">
+    <tspan x="175" dy="0">(Impaction onto</tspan>
+    <tspan x="175" dy="22">SPCE strip)</tspan>
+  </text>
 
-  <!-- Flow & Volume Gating Box -->
-  <rect x="75" y="225" width="100" height="42" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
-  <text x="125" y="242" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Flow &amp; Volume</text>
-  <text x="125" y="257" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Gating</text>
+  <line x1="830" y1="335" x2="830" y2="450" stroke="#000000" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="835" y="375" fill="#000000" font-size="15">
+    <tspan x="835" dy="0">(Wakes up only</tspan>
+    <tspan x="835" dy="22">on valid flow)</tspan>
+  </text>
 
-  <!-- Right branch: Aerosol Microdroplets to Stage 2 -->
-  <rect x="245" y="190" width="115" height="18" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1" />
-  <text x="302" y="203" fill="#000000" font-size="9" font-weight="bold" text-anchor="middle">Aerosol Microdroplets</text>
+  <!-- 4. WIDE CRIMSON BANNER: Dual Output DCCRN equivalent (#990024) -->
+  <rect x="35" y="452" width="930" height="82" fill="#990024" />
+  <text x="500" y="487" fill="#ffffff" font-size="24" font-weight="bold" text-anchor="middle">
+    DUAL TRANSDUCTION CORE (SPCE / BME688)
+  </text>
+  <text x="125" y="519" fill="#ffffff" font-size="17" font-weight="bold">[Faradaic Redox Output]</text>
+  <text x="875" y="519" fill="#ffffff" font-size="17" font-weight="bold" text-anchor="end">[Matrix Noise Reference]</text>
 
+  <!-- Left connection from Crimson Bar to Green Filter -->
+  <line x1="215" y1="534" x2="215" y2="675" stroke="#000000" stroke-width="2" />
+  <line x1="215" y1="675" x2="620" y2="675" stroke="#000000" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="228" y="605" fill="#000000" font-size="16">
+    <tspan x="228" dy="0">(Extracted Redox</tspan>
+    <tspan x="228" dy="24">Faradaic Peak)</tspan>
+  </text>
 
-  <!-- ================= STAGE 2: DUAL TRANSDUCTION (Teal Box) ================= -->
-  <rect x="380" y="195" width="310" height="100" fill="#f0fdfa" stroke="#2dd4bf" stroke-width="2.5" />
-  <text x="535" y="215" fill="#000000" font-size="12" font-weight="bold" text-anchor="middle">2. Dual Transduction Layer</text>
+  <!-- Right connection from Crimson Bar to Green Filter -->
+  <line x1="830" y1="534" x2="830" y2="635" stroke="#000000" stroke-width="2" marker-end="url(#arrow)" />
+  <text x="835" y="575" fill="#000000" font-size="15">
+    <tspan x="835" dy="0">(Internal matrix</tspan>
+    <tspan x="835" dy="22">reference)</tspan>
+  </text>
 
-  <!-- Breath Matrix & VOC Array -->
-  <rect x="405" y="228" width="115" height="55" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
-  <text x="462" y="244" fill="#000000" font-size="10.5" font-weight="bold" text-anchor="middle">Breath Matrix &amp;</text>
-  <text x="462" y="257" fill="#000000" font-size="10.5" font-weight="bold" text-anchor="middle">VOC Array:</text>
-  <text x="462" y="270" fill="#000000" font-size="10" font-weight="bold" text-anchor="middle">BME688 / SGP40</text>
+  <!-- 5. OLIVE GREEN BOX: Always-on NLMS Filter equivalent (#559900 / #4d9900) -->
+  <rect x="620" y="638" width="345" height="72" fill="#4da600" />
+  <text x="792" y="682" fill="#ffffff" font-size="20" font-weight="bold" text-anchor="middle">
+    ALWAYS-ON 3-TIER ML ENGINE
+  </text>
 
-  <!-- Electrochemical Core -->
-  <rect x="555" y="228" width="115" height="55" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
-  <text x="612" y="244" fill="#000000" font-size="10.5" font-weight="bold" text-anchor="middle">Electrochemical</text>
-  <text x="612" y="257" fill="#000000" font-size="10.5" font-weight="bold" text-anchor="middle">Core: SPCE Strip</text>
-  <text x="612" y="270" fill="#000000" font-size="10" font-weight="bold" text-anchor="middle">&amp; PBS Buffer</text>
+  <!-- Route from Olive Green Filter down to Purple Final Box -->
+  <line x1="792" y1="710" x2="792" y2="815" stroke="#000000" stroke-width="2" />
+  <line x1="792" y1="815" x2="570" y2="815" stroke="#000000" stroke-width="2" />
+  <line x1="570" y1="815" x2="570" y2="885" stroke="#000000" stroke-width="2" marker-end="url(#arrow)" />
 
-  <!-- Connecting line from Gas Phase to BME688 -->
-  <path d="M 215 175 Q 320 230 405 245" fill="none" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
-  <!-- Connecting line from Aerosol to SPCE -->
-  <path d="M 255 175 Q 400 185 555 245" fill="none" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
-
-
-  <!-- ================= STAGE 3: HARDWARE CORE (Orange Box) ================= -->
-  <rect x="50" y="325" width="640" height="135" fill="#fffaf5" stroke="#fb923c" stroke-width="2.5" />
-  <text x="370" y="345" fill="#000000" font-size="12" font-weight="bold" text-anchor="middle">3. Hardware &amp; Embedded Core</text>
-
-  <!-- Sample Validity Interrupt label on line -->
-  <path d="M 125 267 L 125 365 Q 125 410 405 410" fill="none" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
-  <rect x="65" y="355" width="135" height="18" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1" />
-  <text x="132" y="368" fill="#000000" font-size="9" font-weight="bold" text-anchor="middle">Sample Validity Interrupt</text>
-
-  <!-- ESP32-S3 Box -->
-  <rect x="405" y="390" width="115" height="50" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
-  <text x="462" y="412" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">ESP32-S3 Edge</text>
-  <text x="462" y="428" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Controller</text>
-
-  <!-- BME688 to ESP32-S3 -->
-  <line x1="462" y1="283" x2="462" y2="390" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
-
-  <!-- Potentiostat AFE Box -->
-  <rect x="555" y="340" width="115" height="42" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
-  <text x="612" y="357" fill="#000000" font-size="10.5" font-weight="bold" text-anchor="middle">Potentiostat</text>
-  <text x="612" y="371" fill="#000000" font-size="10.5" font-weight="bold" text-anchor="middle">AFE + 16-Bit ADC</text>
-
-  <!-- SPCE to Potentiostat -->
-  <line x1="612" y1="283" x2="612" y2="340" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
-
-  <!-- Potentiostat to ESP32 -->
-  <path d="M 612 382 Q 612 410 520 410" fill="none" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
-
-
-  <!-- ================= STAGE 4: ML & FEATURE EXTRACTION (Cyan Box) ================= -->
-  <rect x="335" y="490" width="255" height="225" fill="#f0fdff" stroke="#38bdf8" stroke-width="2.5" />
-  <text x="462" y="512" fill="#000000" font-size="12" font-weight="bold" text-anchor="middle">4. Machine Learning &amp; Feature Extraction</text>
-
-  <!-- Line from ESP32 to ML -->
-  <line x1="462" y1="440" x2="462" y2="528" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
-
-  <!-- Pre-Processing & Calibration -->
-  <rect x="402" y="528" width="120" height="42" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
-  <text x="462" y="546" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Pre-Processing</text>
-  <text x="462" y="560" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">&amp; Calibration</text>
-
-  <!-- Arrow down -->
-  <line x1="462" y1="570" x2="462" y2="598" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
-
-  <!-- Multimodal Feature Vector -->
-  <rect x="402" y="598" width="120" height="42" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
-  <text x="462" y="616" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Multimodal</text>
-  <text x="462" y="630" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Feature Vector</text>
-
-  <!-- Arrow down -->
-  <line x1="462" y1="640" x2="462" y2="668" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
-
-  <!-- Edge TinyML Classifier -->
-  <rect x="402" y="668" width="120" height="38" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
-  <text x="462" y="685" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Edge TinyML</text>
-  <text x="462" y="698" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Classifier</text>
-
-
-  <!-- ================= STAGE 5: 3-TIER DECISION ENGINE (Green Box) ================= -->
-  <rect x="255" y="745" width="415" height="385" fill="#f0fdf4" stroke="#4ade80" stroke-width="2.5" />
-  <text x="462" y="768" fill="#000000" font-size="12" font-weight="bold" text-anchor="middle">5. 3-Tier Decision &amp; Quality Check</text>
-
-  <!-- Line from ML to Decision Engine -->
-  <line x1="462" y1="706" x2="462" y2="785" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
-
-  <!-- Tier 1 -->
-  <rect x="402" y="785" width="120" height="42" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
-  <text x="462" y="803" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Tier 1: Breath</text>
-  <text x="462" y="818" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Quality Check</text>
-
-  <!-- Arrow down -->
-  <line x1="462" y1="827" x2="462" y2="855" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
-
-  <!-- Tier 2 -->
-  <rect x="402" y="855" width="120" height="42" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
-  <text x="462" y="873" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Tier 2: Ambient</text>
-  <text x="462" y="888" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">&amp; Alcohol Gate</text>
-
-  <!-- Arrow down -->
-  <line x1="462" y1="897" x2="462" y2="925" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
-
-  <!-- Tier 3 -->
-  <rect x="402" y="925" width="120" height="50" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
-  <text x="462" y="943" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Tier 3:</text>
-  <text x="462" y="956" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Calibrated</text>
-  <text x="462" y="968" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Impairment Score</text>
-
-  <!-- Arrow down to Diamond -->
-  <line x1="462" y1="975" x2="462" y2="1010" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
-
-  <!-- Final Result Diamond -->
-  <polygon points="462,1010 535,1065 462,1120 389,1065" fill="#f8fafc" stroke="#1e293b" stroke-width="2" />
-  <text x="462" y="1069" fill="#000000" font-size="12" font-weight="bold" text-anchor="middle">Final Result</text>
-
-
-  <!-- ================= STAGE 6: FIELD OPERATOR APP LAYER (Purple Box) ================= -->
-  <rect x="255" y="1175" width="415" height="85" fill="#faf5ff" stroke="#c084fc" stroke-width="2.5" />
-  <text x="462" y="1195" fill="#000000" font-size="12" font-weight="bold" text-anchor="middle">6. Field Operator Application Layer</text>
-
-  <!-- On-Device OLED Box -->
-  <rect x="330" y="1208" width="115" height="42" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
-  <text x="387" y="1225" fill="#000000" font-size="10.5" font-weight="bold" text-anchor="middle">On-Device OLED</text>
-  <text x="387" y="1239" fill="#000000" font-size="10" font-weight="bold" text-anchor="middle">&amp; Tri-Color LED</text>
-
-  <!-- Encrypted BLE Box -->
-  <rect x="495" y="1208" width="115" height="42" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
-  <text x="552" y="1225" fill="#000000" font-size="10.5" font-weight="bold" text-anchor="middle">Encrypted BLE</text>
-  <text x="552" y="1239" fill="#000000" font-size="10" font-weight="bold" text-anchor="middle">Telemetry</text>
-
-  <!-- Decision Branch Arrows -->
-  <!-- Positive / Negative Arrow to OLED -->
-  <path d="M 420 1090 Q 285 1140 330 1215" fill="none" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
-  <rect x="235" y="1120" width="100" height="18" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1" />
-  <text x="285" y="1133" fill="#000000" font-size="9" font-weight="bold" text-anchor="middle">Positive / Negative</text>
-
-  <!-- Inconclusive Arrow to OLED -->
-  <path d="M 435 1105 Q 380 1150 395 1208" fill="none" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
-  <rect x="355" y="1120" width="70" height="18" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1" />
-  <text x="390" y="1133" fill="#000000" font-size="9" font-weight="bold" text-anchor="middle">Inconclusive</text>
-
-  <!-- Arrow to BLE -->
-  <path d="M 495 1095 Q 560 1140 552 1208" fill="none" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
+  <!-- 6. PURPLE FINAL BOX: Final Audio Output equivalent (#cc66ff / #b84dff) -->
+  <rect x="370" y="887" width="400" height="72" fill="#cc66ff" stroke="#000000" stroke-width="2" />
+  <text x="570" y="931" fill="#000000" font-size="22" font-weight="bold" text-anchor="middle">
+    FINAL SCREENING OUTPUT
+  </text>
 
 </svg>
