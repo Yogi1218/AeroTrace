@@ -1,4 +1,4 @@
-# AeroTrace: Point-of-Care Handheld Breath Drug Screening Device
+# AeroTrace: Portable AI-Powered Breath-Based Drug Detection for Rapid Field Screening
 
 Smart India Hackathon 2026 | Problem Statement: SIH 26230 | Category: Hardware / Point-of-Care Diagnostics  
 Team: PHALANX | Department of Electronics and Communication Engineering, SCET Surat  
