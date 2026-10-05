@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AeroTrace — Handheld Breath Narcotics Screening Testbench (SIH 26230)</title>
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --panel: #ffffff;
+            --panel-sub: #f1f5f9;
+            --border: #cbd5e1;
+            --border-light: #e2e8f0;
+            --cyan: #0284c7;
+            --green: #16a34a;
+            --red: #dc2626;
+            --amber: #d97706;
+            --text: #0f172a;
+            --text-dim: #64748b;
+            --mono: "SF Mono", "Menlo", "Consolas", "Courier New", monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--mono);
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        /* 16:9 Presentation Chassis */
+        .chassis {
+            width: 100%;
+            max-width: 1540px;
+            aspect-ratio: 16 / 9;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .title-group {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+        }
+
+        .title-group h1 {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: var(--text);
+        }
+
+        .title-group h1 span {
+            color: var(--cyan);
+        }
+
+        .title-group .doc-tag {
+            font-size: 11px;
+            color: var(--text-dim);
+            border-left: 1px solid var(--border);
+            padding-left: 10px;
+        }
+
+        .top-telemetry {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 11px;
+        }
+
+        .tel-pill {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 4px 10px;
+            border-radius: 4px;
+            color: var(--text-dim);
+        }
+
+        .tel-pill strong {
+            color: var(--cyan);
+        }
+
+        .status-box {
+            border: 1px solid rgba(22, 163, 74, 0.4);
+            background: rgba(22, 163, 74, 0.08);
+            color: var(--green);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dot-blink {
+            width: 6px;
+            height: 6px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: blink 1.2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        /* Signal Pipeline Stage Tracker */
+        .pipeline-strip {
+            display: grid;
+            grid-template-columns: 1fr 20px 1fr 20px 1fr 20px 1fr;
+            align-items: center;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 6px 14px;
+            margin-bottom: 10px;
+            font-size: 11px;
+        }
+
+        .pipe-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-dim);
+        }
+
+        .pipe-step.active {
+            color: var(--text);
+        }
+
+        .pipe-step.active .step-num {
+            background: var(--cyan);
+            color: #ffffff;
+        }
+
+        .pipe-step .step-num {
+            font-size: 9px;
+            background: var(--panel-sub);
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 700;
+        }
+
+        .pipe-step .step-label {
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .pipe-arrow {
+            text-align: center;
+            color: var(--border);
+            font-weight: bold;
+        }
+
+        .pipe-arrow.lit {
+            color: var(--cyan);
+        }
+
+        /* Main Workspace 3 Columns */
+        .workspace {
+            display: grid;
+            grid-template-columns: 31% 36% 33%;
+            gap: 12px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .rack-panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+        }
+
+        .panel-tag {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .panel-spec {
+            font-size: 9px;
+            color: var(--text-dim);
+        }
+
+        /* Scopes */
+        .scope-box {
+            background: var(--panel-sub);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            padding: 6px 8px;
+            margin-bottom: 6px;
+        }
+
+        .scope-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 9px;
+            color: var(--text-dim);
+            margin-bottom: 3px;
+        }
+
+        .scope-meta span.active-val {
+            color: var(--cyan);
+            font-weight: bold;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 95px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+        }
+
+        /* Controls */
+        .control-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 10px;
+            margin-bottom: 4px;
+        }
+
+        .control-row label {
+            color: var(--text-dim);
+        }
+
+        .control-row span.val {
+            color: var(--cyan);
+            font-weight: 700;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            background: #cbd5e1;
+            border-radius: 2px;
+            outline: none;
+            margin: 2px 0 6px 0;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            background: var(--cyan);
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        }
+
+        /* Scenario Buttons */
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .btn-scenario {
+            background: var(--panel-sub);
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            padding: 8px 6px;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: left;
+            border-radius: 4px;
+            transition: all 0.15s ease;
+        }
+
+        .btn-scenario:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            background: #ffffff;
+        }
+
+        .btn-scenario.active {
+            background: #e0f2fe;
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        .btn-run {
+            background: var(--cyan);
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 8px;
+            width: 100%;
+            transition: background 0.15s ease;
+        }
+
+        .btn-run:hover {
+            background: #0369a1;
+        }
+
+        /* Metrics */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        .metric-cell {
+            background: var(--panel-sub);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            padding: 6px;
+            text-align: center;
+        }
+
+        .metric-cell .label {
+            font-size: 8px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+
+        .metric-cell .num {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--cyan);
+            margin-top: 2px;
+        }
+
+        /* Tiers */
+        .tier-box {
+            background: var(--panel-sub);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            padding: 8px 10px;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tier-info .name {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .tier-info .desc {
+            font-size: 8.5px;
+            color: var(--text-dim);
+        }
+
+        .tier-badge {
+            font-size: 9px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 3px;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-pass { background: #dcfce7; color: var(--green); border: 1px solid #86efac; }
+        .badge-fail { background: #fef3c7; color: var(--amber); border: 1px solid #fde68a; }
+        .badge-skip { background: #e2e8f0; color: var(--text-dim); border: 1px solid var(--border); }
+
+        .verdict-chassis {
+            border: 2px solid var(--border);
+            background: var(--panel-sub);
+            padding: 16px;
+            text-align: center;
+            border-radius: 6px;
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .verdict-chassis.pos { border-color: var(--red); background: #fef2f2; }
+        .verdict-chassis.neg { border-color: var(--green); background: #f0fdf4; }
+        .verdict-chassis.inc { border-color: var(--amber); background: #fffbeb; }
+
+        .verdict-title {
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .verdict-chassis.pos .verdict-title { color: var(--red); }
+        .verdict-chassis.neg .verdict-title { color: var(--green); }
+        .verdict-chassis.inc .verdict-title { color: var(--amber); }
+
+        .verdict-desc {
+            font-size: 9.5px;
+            color: var(--text-dim);
+            line-height: 1.3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chassis">
+        <!-- TOP DIAGNOSTIC BAR -->
+        <div class="top-bar">
+            <div class="title-group">
+                <h1>AERO<span>TRACE</span></h1>
+                <div class="doc-tag">PS 26230 // POINT-OF-CARE DRUG SCREENER</div>
+            </div>
+            <div class="top-telemetry">
+                <div class="tel-pill">CORE: <strong>ESP32-S3 (240MHz)</strong></div>
+                <div class="tel-pill">ADC: <strong>16-BIT ADS1115</strong></div>
+                <div class="tel-pill">AFE: <strong>LMP91000 Locked</strong></div>
+                <div class="status-box">
+                    <div class="dot-blink"></div>
+                    <span>DSP ONLINE</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SIGNAL PIPELINE STAGE TRACKER -->
+        <div class="pipeline-strip">
+            <div class="pipe-step active" id="pstep-1">
+                <span class="step-num">01</span>
+                <span class="step-label">FLOW & VOLUME GATING</span>
+            </div>
+            <div class="pipe-arrow lit" id="parr-1">→</div>
+            <div class="pipe-step active" id="pstep-2">
+                <span class="step-num">02</span>
+                <span class="step-label">AEROSOL VOLTAMMETRY</span>
+            </div>
+            <div class="pipe-arrow lit" id="parr-2">→</div>
+            <div class="pipe-step active" id="pstep-3">
+                <span class="step-num">03</span>
+                <span class="step-label">MATRIX QC & INTERFERENTS</span>
+            </div>
+            <div class="pipe-arrow lit" id="parr-3">→</div>
+            <div class="pipe-step active" id="pstep-4">
+                <span class="step-num">04</span>
+                <span class="step-label">3-TIER CALIBRATED VERDICT</span>
+            </div>
+        </div>
+
+        <!-- WORKSPACE 3 COLUMNS -->
+        <div class="workspace">
+
+            <!-- COLUMN 1: SENSOR INGESTION & CONTROLS -->
+            <div class="rack-panel">
+                <div>
+                    <div class="panel-header">
+                        <span class="panel-tag">[RACK 01] INGESTION SIMULATOR</span>
+                        <span class="panel-spec">BMP280 / SGP40</span>
+                    </div>
+
+                    <div class="control-row">
+                        <label>Breath Duration</label>
+                        <span class="val" id="lbl-dur">3.4 s</span>
+                    </div>
+                    <input type="range" id="sl-dur" min="0.5" max="6.0" step="0.1" value="3.4" oninput="runSim()">
+
+                    <div class="control-row">
+                        <label>Exhalation Pressure</label>
+                        <span class="val" id="lbl-pres">2.0 kPa</span>
+                    </div>
+                    <input type="range" id="sl-pres" min="0.2" max="3.5" step="0.1" value="2.0" oninput="runSim()">
+
+                    <div class="control-row">
+                        <label>Alveolar Humidity (RH)</label>
+                        <span class="val" id="lbl-rh">95 %</span>
+                    </div>
+                    <input type="range" id="sl-rh" min="40" max="100" step="1" value="95" oninput="runSim()">
+
+                    <div class="control-row">
+                        <label>Aerosol Concentration</label>
+                        <span class="val" id="lbl-conc">160 ng/mL</span>
+                    </div>
+                    <input type="range" id="sl-conc" min="0" max="400" step="10" value="160" oninput="runSim()">
+
+                    <div class="control-row">
+                        <label>Volatile Confounder (Alcohol)</label>
+                        <span class="val" id="lbl-voc" style="color:var(--amber);">5 ppm</span>
+                    </div>
+                    <input type="range" id="sl-voc" min="0" max="120" step="5" value="5" oninput="runSim()">
+                </div>
+
+                <div>
+                    <div style="font-size: 9.5px; color: var(--text-dim); margin-bottom: 4px; font-weight:700;">TEST PROFILE PRESETS:</div>
+                    <div class="btn-grid">
+                        <button class="btn-scenario active" id="btn-thc" onclick="loadProfile('thc')">[01] CANNABIS (THC)</button>
+                        <button class="btn-scenario" id="btn-opioid" onclick="loadProfile('opioid')">[02] OPIOID CLASS</button>
+                        <button class="btn-scenario" id="btn-clean" onclick="loadProfile('clean')">[03] CLEAN BREATH</button>
+                        <button class="btn-scenario" id="btn-shallow" onclick="loadProfile('shallow')">[04] SHALLOW BREATH</button>
+                        <button class="btn-scenario" id="btn-alc" onclick="loadProfile('alcohol')" style="grid-column: span 2;">[05] MOUTHWASH / VAPE INTERFERENT</button>
+                    </div>
+                    <button class="btn-run" onclick="runSim()">EXECUTE INFERENCE CYCLE</button>
+                </div>
+            </div>
+
+            <!-- COLUMN 2: REAL-TIME SCOPES & FEATURE EXTRACTION -->
+            <div class="rack-panel">
+                <div>
+                    <div class="panel-header">
+                        <span class="panel-tag">[RACK 02] WAVEFORM TELEMETRY</span>
+                        <span class="panel-spec">100Hz AFE BUFFER</span>
+                    </div>
+
+                    <!-- Scope 1: DPV Faradaic Redox Curve -->
+                    <div class="scope-box">
+                        <div class="scope-meta">
+                            <span>CH1: FARADAIC CURRENT vs VOLTAGE (DPV)</span>
+                            <span class="active-val" id="scope-peak-txt">E_p: +0.44V | I_p: 2.10µA</span>
+                        </div>
+                        <canvas id="cvCanvas"></canvas>
+                    </div>
+
+                    <!-- Scope 2: Breath Flow & Matrix Profile -->
+                    <div class="scope-box">
+                        <div class="scope-meta">
+                            <span>CH2: EXHALATION PRESSURE (kPa) & VOC MATRIX</span>
+                            <span class="active-val" id="scope-flow-txt">P_max: 2.0kPa</span>
+                        </div>
+                        <canvas id="flowCanvas"></canvas>
+                    </div>
+                </div>
+
+                <div>
+                    <div style="font-size: 9px; color: var(--text-dim); margin-bottom: 4px; font-weight:700;">MULTIMODAL TINYML FEATURE VECTOR:</div>
+                    <div class="metric-grid">
+                        <div class="metric-cell"><div class="label">E_peak</div><div class="num" id="m-ep">0.44V</div></div>
+                        <div class="metric-cell"><div class="label">I_peak</div><div class="num" id="m-ip">2.10µA</div></div>
+                        <div class="metric-cell"><div class="label">Charge Q</div><div class="num" id="m-q">0.14</div></div>
+                        <div class="metric-cell"><div class="label">Duration</div><div class="num" id="m-dur" style="color:var(--text);">3.4s</div></div>
+                        <div class="metric-cell"><div class="label">Pressure</div><div class="num" id="m-p" style="color:var(--text);">2.0kPa</div></div>
+                        <div class="metric-cell"><div class="label">VOC Matrix</div><div class="num" id="m-voc" style="color:var(--amber);">118kΩ</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLUMN 3: 3-TIER DECISION ENGINE & FINAL OUTPUT -->
+            <div class="rack-panel">
+                <div>
+                    <div class="panel-header">
+                        <span class="panel-tag">[RACK 03] DECISION ENGINE</span>
+                        <span class="panel-spec">LATENCY: 38ms</span>
+                    </div>
+
+                    <!-- Tier 1 -->
+                    <div class="tier-box">
+                        <div class="tier-info">
+                            <div class="name">TIER 1: BREATH FLOW & ALVEOLAR QUALITY</div>
+                            <div class="desc">Duration ≥ 2.5s & Pressure ≥ 0.8kPa & RH ≥ 90%</div>
+                        </div>
+                        <span class="tier-badge badge-pass" id="badge-t1">PASS</span>
+                    </div>
+
+                    <!-- Tier 2 -->
+                    <div class="tier-box">
+                        <div class="tier-info">
+                            <div class="name">TIER 2: AMBIENT & VOC MATRIX GATE</div>
+                            <div class="desc">Volatile Interferent / Alcohol &lt; 45 ppm</div>
+                        </div>
+                        <span class="tier-badge badge-pass" id="badge-t2">PASS</span>
+                    </div>
+
+                    <!-- Tier 3 -->
+                    <div class="tier-box">
+                        <div class="tier-info">
+                            <div class="name">TIER 3: FARADAIC PEAK WINDOW MATCHING</div>
+                            <div class="desc">Redox Window Check & Calibrated Impairment Score</div>
+                        </div>
+                        <span class="tier-badge badge-pass" id="badge-t3">EVALUATED</span>
+                    </div>
+                </div>
+
+                <!-- BIG FINAL VERDICT BOX -->
+                <div class="verdict-chassis pos" id="verdict-card">
+                    <span style="font-size: 8.5px; color: var(--text-dim); letter-spacing: 1px;">FINAL SCREENING OUTCOME</span>
+                    <div class="verdict-title" id="verdict-title">POSITIVE: CANNABIS</div>
+                    <div class="verdict-desc" id="verdict-desc">Confirmed Faradaic oxidation peak at +0.44V. Impairment marker present.</div>
+                    <div style="font-size: 10px; font-weight:800; color:var(--cyan); margin-top:4px;" id="verdict-conf">CONFIDENCE: 94.2%</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let currentProfile = 'thc';
+
+        function loadProfile(p) {
+            currentProfile = p;
+            document.querySelectorAll('.btn-scenario').forEach(b => b.classList.remove('active'));
+
+            if (p === 'thc') {
+                document.getElementById('btn-thc').classList.add('active');
+                setValues(3.4, 2.0, 95, 160, 5);
+            } else if (p === 'opioid') {
+                document.getElementById('btn-opioid').classList.add('active');
+                setValues(3.2, 1.9, 94, 220, 8);
+            } else if (p === 'clean') {
+                document.getElementById('btn-clean').classList.add('active');
+                setValues(3.5, 2.1, 95, 0, 4);
+            } else if (p === 'shallow') {
+                document.getElementById('btn-shallow').classList.add('active');
+                setValues(1.1, 0.5, 78, 140, 3);
+            } else if (p === 'alcohol') {
+                document.getElementById('btn-alc').classList.add('active');
+                setValues(3.2, 1.9, 95, 0, 85);
+            }
+        }
+
+        function setValues(dur, pres, rh, conc, voc) {
+            document.getElementById('sl-dur').value = dur;
+            document.getElementById('sl-pres').value = pres;
+            document.getElementById('sl-rh').value = rh;
+            document.getElementById('sl-conc').value = conc;
+            document.getElementById('sl-voc').value = voc;
+            runSim();
+        }
+
+        function drawScope1(cvCanvas, targetEp, ipPeak, hasPeak) {
+            const ctx = cvCanvas.getContext('2d');
+            const w = cvCanvas.width = cvCanvas.offsetWidth * window.devicePixelRatio;
+            const h = cvCanvas.height = cvCanvas.offsetHeight * window.devicePixelRatio;
+            ctx.clearRect(0, 0, w, h);
+
+            // Light mode subtle grid lines
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1;
+            for(let x=0; x<w; x+=w/10) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+            for(let y=0; y<h; y+=h/5) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+
+            // Baseline trace (Dashed grey)
+            ctx.strokeStyle = '#94a3b8';
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            for(let i=0; i<100; i++) {
+                let v = i/100 * 1.3;
+                let base = 0.15 + v*0.12;
+                let px = (i/100) * w;
+                let py = h - (base/4.0) * h;
+                if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+            }
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Live DPV Signal (Sky Blue #0284c7)
+            ctx.strokeStyle = '#0284c7';
+            ctx.lineWidth = 2 * window.devicePixelRatio;
+            ctx.beginPath();
+            for(let i=0; i<100; i++) {
+                let v = i/100 * 1.3;
+                let base = 0.15 + v*0.12;
+                let faradaic = 0;
+                if(hasPeak) {
+                    faradaic = ipPeak * Math.exp(-Math.pow((v - targetEp)/0.065, 2));
+                }
+                let noise = (Math.random() - 0.5) * 0.04;
+                let cur = Math.max(0, base + faradaic + noise);
+
+                let px = (i/100) * w;
+                let py = h - (cur/4.0) * h;
+                if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+            }
+            ctx.stroke();
+        }
+
+        function drawScope2(flowCanvas, dur, pres, voc) {
+            const ctx = flowCanvas.getContext('2d');
+            const w = flowCanvas.width = flowCanvas.offsetWidth * window.devicePixelRatio;
+            const h = flowCanvas.height = flowCanvas.offsetHeight * window.devicePixelRatio;
+            ctx.clearRect(0, 0, w, h);
+
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1;
+            for(let x=0; x<w; x+=w/10) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+            for(let y=0; y<h; y+=h/5) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+
+            // Pressure curve (Forest Green #16a34a)
+            ctx.strokeStyle = '#16a34a';
+            ctx.lineWidth = 2 * window.devicePixelRatio;
+            ctx.beginPath();
+            for(let i=0; i<100; i++) {
+                let t = (i/100) * 4.0;
+                let p = 0;
+                if(t <= dur) p = pres * Math.sin((t/dur) * Math.PI) + (Math.random()-0.5)*0.05;
+                let px = (i/100) * w;
+                let py = h - (Math.max(0, p)/3.5) * h;
+                if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+            }
+            ctx.stroke();
+
+            // VOC matrix drop (Crimson Red #dc2626)
+            ctx.strokeStyle = '#dc2626';
+            ctx.lineWidth = 1.5 * window.devicePixelRatio;
+            ctx.beginPath();
+            for(let i=0; i<100; i++) {
+                let t = (i/100) * 4.0;
+                let r = 120;
+                if(voc > 10) {
+                    let drop = (voc/120.0) * 80;
+                    r = Math.max(15, 120 - drop*(1 - Math.exp(-t)));
+                } else {
+                    r = 120 - (t <= dur ? 6 : 0);
+                }
+                let px = (i/100) * w;
+                let py = h - (r/140.0) * h;
+                if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+            }
+            ctx.stroke();
+        }
+
+        function runSim() {
+            const dur = parseFloat(document.getElementById('sl-dur').value);
+            const pres = parseFloat(document.getElementById('sl-pres').value);
+            const rh = parseInt(document.getElementById('sl-rh').value);
+            const conc = parseInt(document.getElementById('sl-conc').value);
+            const voc = parseInt(document.getElementById('sl-voc').value);
+
+            document.getElementById('lbl-dur').innerText = dur.toFixed(1) + ' s';
+            document.getElementById('lbl-pres').innerText = pres.toFixed(1) + ' kPa';
+            document.getElementById('lbl-rh').innerText = rh + ' %';
+            document.getElementById('lbl-conc').innerText = conc + ' ng/mL';
+            document.getElementById('lbl-voc').innerText = voc + ' ppm';
+
+            let targetEp = 0.44;
+            if(currentProfile === 'opioid') targetEp = 0.82;
+            const hasPeak = (currentProfile === 'thc' || currentProfile === 'opioid') && conc > 15;
+            const ipPeak = hasPeak ? (conc / 75.0) : 0.05;
+
+            // Render high-speed native scopes
+            drawScope1(document.getElementById('cvCanvas'), targetEp, ipPeak, hasPeak);
+            drawScope2(document.getElementById('flowCanvas'), dur, pres, voc);
+
+            // Update Metrics
+            const strEp = hasPeak ? targetEp.toFixed(2) + 'V' : '--';
+            const strIp = hasPeak ? ipPeak.toFixed(2) + 'µA' : '0.04µA';
+            document.getElementById('scope-peak-txt').innerText = `E_p: ${strEp} | I_p: ${strIp}`;
+            document.getElementById('m-ep').innerText = strEp;
+            document.getElementById('m-ip').innerText = strIp;
+            document.getElementById('m-q').innerText = hasPeak ? (ipPeak * 0.12).toFixed(2) : '0.01';
+            document.getElementById('m-dur').innerText = dur.toFixed(1) + 's';
+            document.getElementById('m-p').innerText = pres.toFixed(1) + 'kPa';
+            document.getElementById('m-voc').innerText = (voc > 10 ? Math.round(120 - (voc/120)*80) : 118) + 'kΩ';
+
+            // 3-Tier Evaluation
+            const t1Pass = (dur >= 2.5 && pres >= 0.8 && rh >= 90);
+            const t2Pass = (voc < 45);
+
+            const bT1 = document.getElementById('badge-t1');
+            const bT2 = document.getElementById('badge-t2');
+            const bT3 = document.getElementById('badge-t3');
+            const vCard = document.getElementById('verdict-card');
+            const vTitle = document.getElementById('verdict-title');
+            const vDesc = document.getElementById('verdict-desc');
+            const vConf = document.getElementById('verdict-conf');
+
+            if(t1Pass) {
+                bT1.className = 'tier-badge badge-pass'; bT1.innerText = 'PASS';
+            } else {
+                bT1.className = 'tier-badge badge-fail'; bT1.innerText = 'FAIL';
+            }
+
+            if(!t1Pass) {
+                bT2.className = 'tier-badge badge-skip'; bT2.innerText = 'SKIPPED';
+                bT3.className = 'tier-badge badge-skip'; bT3.innerText = 'SKIPPED';
+                vCard.className = 'verdict-chassis inc';
+                vTitle.innerText = 'INCONCLUSIVE';
+                vDesc.innerText = 'Insufficient exhalation volume or shallow breath (<2.5s). Deep alveolar sample required.';
+                vConf.innerText = 'FLOW ABORT (SAMPLE INVALID)';
+                return;
+            }
+
+            if(t2Pass) {
+                bT2.className = 'tier-badge badge-pass'; bT2.innerText = 'PASS';
+            } else {
+                bT2.className = 'tier-badge badge-fail'; bT2.innerText = 'FAIL';
+                bT3.className = 'tier-badge badge-skip'; bT3.innerText = 'SKIPPED';
+                vCard.className = 'verdict-chassis inc';
+                vTitle.innerText = 'INCONCLUSIVE';
+                vDesc.innerText = `High volatile interferent detected (${voc} ppm). Suspected mouthwash, vape solvent, or alcohol.`;
+                vConf.innerText = 'MATRIX CONTAMINATED';
+                return;
+            }
+
+            bT3.className = 'tier-badge badge-pass'; bT3.innerText = 'EVALUATED';
+
+            if(hasPeak) {
+                vCard.className = 'verdict-chassis pos';
+                let drug = currentProfile === 'thc' ? 'CANNABIS (THC)' : 'OPIOID CLASS';
+                vTitle.innerText = `POSITIVE: ${drug}`;
+                vDesc.innerText = `Confirmed Faradaic oxidation peak at ${strEp}. Analyte concentration ~${conc} ng/mL.`;
+                vConf.innerText = `CONFIDENCE: ${(88 + (conc/400)*11).toFixed(1)}% (HIGH)`;
+            } else {
+                vCard.className = 'verdict-chassis neg';
+                vTitle.innerText = 'NEGATIVE';
+                vDesc.innerText = 'No characteristic Faradaic oxidation peaks observed above baseline. Non-impaired breath cleared.';
+                vConf.innerText = 'CONFIDENCE: 96.4% (CLEAR)';
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadProfile('thc');
+        });
+    </script>
+</body>
+</html>
