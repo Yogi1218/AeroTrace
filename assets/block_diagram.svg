@@ -7,7 +7,7 @@
 
   <!-- ================= STAGE 1: BREATH SAMPLING (Pink Box) ================= -->
   <rect x="50" y="20" width="310" height="270" fill="#fff5fc" stroke="#f472b6" stroke-width="2.5" />
-  <text x="205" y="42" fill="#000000" font-size="12" font-weight="bold" text-anchor="middle">1. Breath Sampling & Flow Validation</text>
+  <text x="205" y="42" fill="#000000" font-size="12" font-weight="bold" text-anchor="middle">1. Breath Sampling &amp; Flow Validation</text>
 
   <!-- Disposable Mouthpiece -->
   <rect x="145" y="55" width="120" height="42" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
@@ -31,7 +31,7 @@
 
   <!-- Flow & Volume Gating Box -->
   <rect x="75" y="225" width="100" height="42" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
-  <text x="125" y="242" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Flow & Volume</text>
+  <text x="125" y="242" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Flow &amp; Volume</text>
   <text x="125" y="257" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Gating</text>
 
   <!-- Right branch: Aerosol Microdroplets to Stage 2 -->
@@ -45,7 +45,7 @@
 
   <!-- Breath Matrix & VOC Array -->
   <rect x="405" y="228" width="115" height="55" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
-  <text x="462" y="244" fill="#000000" font-size="10.5" font-weight="bold" text-anchor="middle">Breath Matrix &</text>
+  <text x="462" y="244" fill="#000000" font-size="10.5" font-weight="bold" text-anchor="middle">Breath Matrix &amp;</text>
   <text x="462" y="257" fill="#000000" font-size="10.5" font-weight="bold" text-anchor="middle">VOC Array:</text>
   <text x="462" y="270" fill="#000000" font-size="10" font-weight="bold" text-anchor="middle">BME688 / SGP40</text>
 
@@ -53,7 +53,7 @@
   <rect x="555" y="228" width="115" height="55" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
   <text x="612" y="244" fill="#000000" font-size="10.5" font-weight="bold" text-anchor="middle">Electrochemical</text>
   <text x="612" y="257" fill="#000000" font-size="10.5" font-weight="bold" text-anchor="middle">Core: SPCE Strip</text>
-  <text x="612" y="270" fill="#000000" font-size="10" font-weight="bold" text-anchor="middle">& PBS Buffer</text>
+  <text x="612" y="270" fill="#000000" font-size="10" font-weight="bold" text-anchor="middle">&amp; PBS Buffer</text>
 
   <!-- Connecting line from Gas Phase to BME688 -->
   <path d="M 215 175 Q 320 230 405 245" fill="none" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
@@ -63,7 +63,7 @@
 
   <!-- ================= STAGE 3: HARDWARE CORE (Orange Box) ================= -->
   <rect x="50" y="325" width="640" height="135" fill="#fffaf5" stroke="#fb923c" stroke-width="2.5" />
-  <text x="370" y="345" fill="#000000" font-size="12" font-weight="bold" text-anchor="middle">3. Hardware & Embedded Core</text>
+  <text x="370" y="345" fill="#000000" font-size="12" font-weight="bold" text-anchor="middle">3. Hardware &amp; Embedded Core</text>
 
   <!-- Sample Validity Interrupt label on line -->
   <path d="M 125 267 L 125 365 Q 125 410 405 410" fill="none" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
@@ -92,7 +92,7 @@
 
   <!-- ================= STAGE 4: ML & FEATURE EXTRACTION (Cyan Box) ================= -->
   <rect x="335" y="490" width="255" height="225" fill="#f0fdff" stroke="#38bdf8" stroke-width="2.5" />
-  <text x="462" y="512" fill="#000000" font-size="12" font-weight="bold" text-anchor="middle">4. Machine Learning & Feature Extraction</text>
+  <text x="462" y="512" fill="#000000" font-size="12" font-weight="bold" text-anchor="middle">4. Machine Learning &amp; Feature Extraction</text>
 
   <!-- Line from ESP32 to ML -->
   <line x1="462" y1="440" x2="462" y2="528" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
@@ -100,7 +100,7 @@
   <!-- Pre-Processing & Calibration -->
   <rect x="402" y="528" width="120" height="42" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
   <text x="462" y="546" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Pre-Processing</text>
-  <text x="462" y="560" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">& Calibration</text>
+  <text x="462" y="560" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">&amp; Calibration</text>
 
   <!-- Arrow down -->
   <line x1="462" y1="570" x2="462" y2="598" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
@@ -121,7 +121,7 @@
 
   <!-- ================= STAGE 5: 3-TIER DECISION ENGINE (Green Box) ================= -->
   <rect x="255" y="745" width="415" height="385" fill="#f0fdf4" stroke="#4ade80" stroke-width="2.5" />
-  <text x="462" y="768" fill="#000000" font-size="12" font-weight="bold" text-anchor="middle">5. 3-Tier Decision & Quality Check</text>
+  <text x="462" y="768" fill="#000000" font-size="12" font-weight="bold" text-anchor="middle">5. 3-Tier Decision &amp; Quality Check</text>
 
   <!-- Line from ML to Decision Engine -->
   <line x1="462" y1="706" x2="462" y2="785" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
@@ -137,7 +137,7 @@
   <!-- Tier 2 -->
   <rect x="402" y="855" width="120" height="42" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
   <text x="462" y="873" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">Tier 2: Ambient</text>
-  <text x="462" y="888" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">& Alcohol Gate</text>
+  <text x="462" y="888" fill="#000000" font-size="11" font-weight="bold" text-anchor="middle">&amp; Alcohol Gate</text>
 
   <!-- Arrow down -->
   <line x1="462" y1="897" x2="462" y2="925" stroke="#000000" stroke-width="1.8" marker-end="url(#arrow)" />
@@ -163,7 +163,7 @@
   <!-- On-Device OLED Box -->
   <rect x="330" y="1208" width="115" height="42" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
   <text x="387" y="1225" fill="#000000" font-size="10.5" font-weight="bold" text-anchor="middle">On-Device OLED</text>
-  <text x="387" y="1239" fill="#000000" font-size="10" font-weight="bold" text-anchor="middle">& Tri-Color LED</text>
+  <text x="387" y="1239" fill="#000000" font-size="10" font-weight="bold" text-anchor="middle">&amp; Tri-Color LED</text>
 
   <!-- Encrypted BLE Box -->
   <rect x="495" y="1208" width="115" height="42" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />

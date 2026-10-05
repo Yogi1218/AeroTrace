@@ -23,7 +23,7 @@ Because non-volatile narcotics (such as $\Delta^9$-THC, opioids, and synthetic a
 ## 2. System Architecture & Pipeline Flow
 
 <div align="center">
-  <img src="assets/block_diagram.svg" alt="AeroTrace System Architecture Block Diagram" width="550"/>
+  <img src="assets/block_diagram.png" alt="AeroTrace System Architecture Block Diagram" width="750"/>
 </div>
 
 The architecture processes exhaled human breath through a strictly validated, multi-stage hybrid pipeline:
